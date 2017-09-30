@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--defining the application-->
+<html ng-app="formula">
+<!--
+Single-page application (SPA) that is based on an AngularJS architectural pattern
+MVC (Model-View Controller).
+-->
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="controller.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+
+</head>
+<body>
+<!--defining the controller-->
+<div ng-controller="formulaController"><br/>
+    <div class="container">
+        <h1 align="center">Formula 1 Results</h1>
+        <h3 align="center">Choose season:</h3><br /><br />
+        <!--accordion reference: https://angular-ui.github.io/bootstrap/-->
+        <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group class="panel-default" is-open="status.open" ng-repeat="season in seasons">
+                <uib-accordion-heading>
+                    <!--displaying seasons 2000-2007 as an accordion heading-->
+                    <a ng-click="active(season)">{{season}}</a><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                </uib-accordion-heading>
+                <!--displaying name of the races and winner for each based on chosen season-->
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Race</th>
+                            <th>Winner</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-style="{'background-color': ( race.Results[0].Driver.code == champion ? 'WhiteSmoke ' : 'white')}" ng-repeat="race in data">
+                            <th scope="row"> {{$index+1}}</th>
+                            <!--displaying name of the race-->
+                            <td>{{race.raceName}}</td>
+                            <!--displaying name of the winner-->
+                            <td>{{race.Results[0].Driver.givenName}} {{race.Results[0].Driver.familyName}}</td>
+                        </tr>
+                        </tbody>
+                    </table><hr/>
+                    <h5>*Highlighted row indicates world champion for the given season</h5>
+                </div>
+            </div>
+        </uib-accordion>
+    </div>
+</div>
+</body>
+</html>
